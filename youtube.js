@@ -1,6 +1,7 @@
 
 var request = require('request');
 var dom = require('./dom');
+var queue = require('./queue');
 
 var youtubemp3pushitem = 'http://www.youtube-mp3.org/api/pushItem/?item=';
 var youtubemp3hash = 'http://www.youtube-mp3.org/api/itemInfo/?video_id=';
@@ -46,6 +47,22 @@ var getMp3LinkForVideo = function (videoId, callback) {
 	//});
 };
 
+var getFirstMp3LinkForVideos = function (videoIds, callback) {
+	var myQueue = queue.create();
+	videoIds.forEach(function (videoId) {
+		myQueue.add(function (done) {
+			getMp3LinkForVideo(videoId, function (url) {
+				if (url) {
+					myQueue.items = [myQueue.items[0]];
+					callback(url);
+				};
+				done();
+			});
+		});
+	});
+	myQueue.add(queue.triggerFor(callback));
+};
+
 var youtubeSearchUrl = 'http://www.youtube.com/results?search_query=';
 var searchVideos = function (query, callback) {
 	var url = youtubeSearchUrl + encodeURIComponent(query);
@@ -60,4 +77,5 @@ var searchVideos = function (query, callback) {
 };
 
 exports.getMp3LinkForVideo = getMp3LinkForVideo;
+exports.getFirstMp3LinkForVideos = getFirstMp3LinkForVideos;
 exports.searchVideos = searchVideos;

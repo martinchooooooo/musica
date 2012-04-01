@@ -4,6 +4,7 @@ var fileserializer = require('../fileserializer');
 var queue = require('../queue');
 var fs = require('fs');
 var lastfm = require('../lastfm');
+var youtube = require('../youtube');
 
 /*
 exports['find links for track'] = function (test) {
@@ -44,6 +45,28 @@ exports['find links for top chart tracks'] = function (test) {
 		});
 	});
 };
+
+exports['find links for youtube video id'] = function (test) {
+	var videoId = 'EuIiOtWjv_A';
+	var track = {
+		name: 'Here Comes The Hotstepper',
+		artist: 'Ini Kamoze'
+	};
+	var stream = fs.createWriteStream('data/results.txt');
+	stream.once('open', function () {
+		console.log(track.artist + ' - ' + track.name);
+		youtube.getMp3LinkForVideo(videoId, function (link) {
+			if (!link) {
+				console.log('\tno link found.');
+				return test.done();
+			}
+			console.log('\tfound:',link);
+			stream.write(link + '\t' + track.artist + '\t' + track.name + '\n'); 
+			test.done();
+		});
+	});
+};
+
 */
 
 exports['find links for all tracks from data/suggestions.txt'] = function (test) {
