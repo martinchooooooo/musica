@@ -20,7 +20,7 @@ exports['download tracks from data/results.txt'] = function (test) {
 		tracks.forEach(function (track) {
 			myQueue.add(function (done) {
 				console.log('downloading ' + track.name + ' from ' + track.url);
-				var dload = downloader.download(track.url, '/home/hari/Music/download/' + track.artist + ' - ' + track.name + '.mp3', function () {
+				var dload = downloader.download(track.url, '$HOME/Music/download/' + track.artist + ' - ' + track.name + '.mp3', function () {
 					done();
 				});
 				if (!dload) return;
