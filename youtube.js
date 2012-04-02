@@ -8,18 +8,6 @@ var youtubemp3hash = 'http://www.youtube-mp3.org/api/itemInfo/?video_id=';
 var youtubemp3get = 'http://www.youtube-mp3.org/get?video_id={id}&h={h}';
 
 var youtubeWatch = 'http://www.youtube.com/watch?v=';
-var pushVideo = function (videoId, callback) {
-	var url = youtubemp3pushitem + encodeURIComponent(youtubeWatch + videoId);
-	request({url: url}, function (error, response, body) {
-		if (!error) {
-			try {
-				callback(body);
-			}
-			catch(e) { return callback(); }
-		}
-		else callback();
-	});
-};
 
 var getVideoHash = function (videoId, callback) {
 	var url = youtubemp3hash + videoId;
@@ -36,15 +24,11 @@ var getVideoHash = function (videoId, callback) {
 };
 
 var getMp3LinkForVideo = function (videoId, callback) {
-	// I'm not sure whether pushVideo is required
-	//pushVideo(videoId, function (videoId) {
-	//	if (!videoId) return callback();
-		getVideoHash(videoId, function (hash) {
-			if (!hash) return callback();
-			var url = youtubemp3get.replace('{id}', videoId).replace('{h}', hash);
-			callback(url);
-		});
-	//});
+	getVideoHash(videoId, function (hash) {
+		if (!hash) return callback();
+		var url = youtubemp3get.replace('{id}', videoId).replace('{h}', hash);
+		callback(url);
+	});
 };
 
 var getFirstMp3LinkForVideos = function (videoIds, callback) {
