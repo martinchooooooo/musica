@@ -1,5 +1,5 @@
 
-# Musica #
+# Musica 
 
 A set of node.js utilities that allows you to get mp3 links for songs (using youtube-mp3.org as the source).
 Read `test/linkfinder.js` and `test/downloader.js` for sample implementations that download songs listed in `data/suggestions.txt`.
@@ -7,14 +7,17 @@ Read `test/linkfinder.js` and `test/downloader.js` for sample implementations th
 Also includes a suggester that uses last.fm to recommend similar music.
 Read `test/suggester.js` for a sample implementation that suggests songs based on the list in `data/songs.txt`.
 
-# Prerequisites # 
+# Prerequisites 
 You'll need [node.js](http://nodejs.org) as well as the following modules:
 
 * request
 * jsdom
 * underscore
 
-# Try it out #
+# API Documentation
+Have a look inside the `docs` folder for some annotated source documentation (generated using [docco](http://jashkenas.github.com/docco/))
+
+# Try it out 
 Just clone this repository into a folder, and run the following:
 
 	nodeunit test/linkfinder.js
