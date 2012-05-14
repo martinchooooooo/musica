@@ -7,6 +7,7 @@ _.templateSettings = {
 	interpolate: /\{(.+?)\}/g
 };
 
+// Base URL for last.fm (API key taken from examples)
 var baseUrl = _.template('http://ws.audioscrobbler.com/2.0/?{params}&format=json&api_key=b25b959554ed76058ac220b7b2e0a026');
 
 var serializeToKeyValueString = function (obj) {
@@ -15,9 +16,9 @@ var serializeToKeyValueString = function (obj) {
 	}).join('&');
 };
 
+// Sends `params` to last.fm service and fires `callback` with the JSON response 
 var get = function (params, callback) {
 	var url = baseUrl({ params: serializeToKeyValueString(params) });
-	// console.log(url);
 	return request({ url: url }, function (error, response, body) {
 		if (!error) {
 			try {
@@ -34,6 +35,7 @@ var createTrack = function (name, artist) {
 	return { name: name, artist: artist };
 };
 
+// Gets the top `limit` tracks for `artist`
 var getTopTracksForArtist = function (artist, limit, callback) {
 	return get({ method: 'artist.gettoptracks', limit: limit, artist: artist }, function (data) {
 		if (!data || !data.toptracks || !_.isArray(data.toptracks.track)) {
@@ -47,6 +49,7 @@ var getTopTracksForArtist = function (artist, limit, callback) {
 	});
 };
 
+// Gets top `limit` tracks on the chart.
 var getTopTracks = function (limit, callback) {
 	return get({ method: 'chart.gettoptracks', limit: limit }, function (data) {
 		if (!data || !data.tracks || !_.isArray(data.tracks.track)) {
@@ -60,6 +63,7 @@ var getTopTracks = function (limit, callback) {
 	});
 };
 
+// Gets track info for `track` by `artist`.
 var getTrackInfo = function (track, artist, callback) {
 	return get({ method: 'track.getinfo', track: track, artist: artist }, function (data) {
 		if (!data || !data.track) {
@@ -75,6 +79,7 @@ var toArray = function (obj) {
 	return [obj];
 };
 
+// Gets `limit` similar tracks to `track` by `artist`. Suggestions are handled by the last.fm API
 var getSimilarTracks = function (track, artist, limit, callback) {
 	return get({ method: 'track.getsimilar', track: track, artist: artist, limit: limit }, function (data) {
 		if (!data || !data.similartracks || !_.isArray(data.similartracks.track)) {

@@ -2,7 +2,7 @@
 var fs = require('fs');
 var _ = require('underscore');
 
-// `records` is an array of dictionaries
+// Serializes an array of objects (`records`) out to a tab-delimited file.
 var serializeTabDelimited = function (records, file, callback) {
 	var stream = fs.createWriteStream(file);
 	stream.once('open', function (fd) {
@@ -13,6 +13,8 @@ var serializeTabDelimited = function (records, file, callback) {
 	});
 };
 
+// Reads in a tab-delimited file `file` into an array of objects.
+// `fieldnames` is an array that describes the column names in the file.
 var readTabDelimited = function (file, fieldnames, callback) {
 	fs.readFile(file, function(err, data){
 		if (err) throw err;

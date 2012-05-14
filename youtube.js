@@ -9,6 +9,7 @@ var youtubemp3get = 'http://www.youtube-mp3.org/get?video_id={id}&h={h}';
 
 var youtubeWatch = 'http://www.youtube.com/watch?v=';
 
+// Gets the hash for a youtube `videoId` that is required for validation against youtube-mp3.org.  
 var getVideoHash = function (videoId, callback) {
 	var url = youtubemp3hash + videoId;
 	request({url: url}, function (error, response, body) {
@@ -23,6 +24,8 @@ var getVideoHash = function (videoId, callback) {
 	});
 };
 
+// Gets an mp3 link for a youtube `videoId`.
+// Fires `callback` passing through the mp3 link as the `url` parameter.
 var getMp3LinkForVideo = function (videoId, callback) {
 	getVideoHash(videoId, function (hash) {
 		if (!hash) return callback();
@@ -31,6 +34,7 @@ var getMp3LinkForVideo = function (videoId, callback) {
 	});
 };
 
+// Loops through `videoIds` and finds the first one that can be resolved as an mp3 link, and fires `callback` with the URL.
 var getFirstMp3LinkForVideos = function (videoIds, callback) {
 	var myQueue = queue.create();
 	videoIds.forEach(function (videoId) {
@@ -48,6 +52,8 @@ var getFirstMp3LinkForVideos = function (videoIds, callback) {
 };
 
 var youtubeSearchUrl = 'http://www.youtube.com/results?search_query=';
+
+// Searches youtube given a string `query` (e.g "The Best of You Foo Fighters"), and fires `callback` with all the video ids in the search results
 var searchVideos = function (query, callback) {
 	var url = youtubeSearchUrl + encodeURIComponent(query);
 	dom.loadDOMAtUrl(url, function (doc) {

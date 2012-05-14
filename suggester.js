@@ -3,6 +3,8 @@ var _ = require('underscore');
 var lastfm = require('./lastfm');
 var queue = require('./queue');
 
+// Gets collated and ordered suggestions for `tracks`, firing `callback` with the suggestion list
+// `suggestions` is an array of objects with keys `track`, `artist`, and `frequency`, sorted descending by frequency.
 var suggest = function (tracks, callback) {
 	var suggestions = [];
 	var lastfmQueue = queue.create();
