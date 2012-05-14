@@ -13,6 +13,7 @@ You'll need [node.js](http://nodejs.org) as well as the following modules:
 * request
 * jsdom
 * underscore
+* nodeunit
 
 # API Documentation
 Have a look inside the `docs` folder for some annotated source documentation (generated using [docco](http://jashkenas.github.com/docco/))
